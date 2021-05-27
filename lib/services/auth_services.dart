@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
+import 'user_services.dart';
 import '../extension/firebase_user_extension.dart';
 import '../models/auth.dart';
 import '../models/user.dart';
 import '../models/response_handler.dart';
-import 'user_services.dart';
+import '../utils/storage_util.dart';
 
 class AuthServices {
   static auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
@@ -21,6 +22,8 @@ class AuthServices {
       );
 
       await UserServices.updateUser(user);
+
+      StorageUtil.writeStorage('social_provider', 'password');
 
       return ResponseHandler(user: user);
     } 
@@ -39,6 +42,8 @@ class AuthServices {
       );
 
       User user = await result.user!.fromFireStore();
+
+      StorageUtil.writeStorage('social_provider', 'password');
 
       return ResponseHandler(user: user);
     } 
