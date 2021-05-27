@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CustomSocialButton extends StatelessWidget {
+class SocialButton extends StatelessWidget {
   final String image;
   final double? height;
   final Color? color;
   final double? borderRadius;
   final Function onPressed;
 
-  CustomSocialButton({
+  SocialButton({
     this.height = 46,
     this.color,
     this.borderRadius,

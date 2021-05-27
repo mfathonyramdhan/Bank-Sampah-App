@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../../shared/font.dart';
 import '../../shared/size.dart';
 
-class CustomMaterialButton extends StatelessWidget {
+class ActionButton extends StatelessWidget {
   final String text;
   final double? height;
   final Color? color;
   final Color? textColor;
   final Function onPressed;
 
-  CustomMaterialButton({
+  ActionButton({
     this.height = 46,
     this.text = "",
     this.color,

@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/user_bloc.dart';
 import '../../../services/auth_services.dart';
+import '../../../services/social_services.dart';
 import '../../screens/auth/login_screen.dart';
 import '../../../shared/color.dart';
+import '../../../utils/storage_util.dart';
 
 class MainScreen extends StatelessWidget {
   static String routeName = "/main_screen";
@@ -40,13 +42,7 @@ class MainScreen extends StatelessWidget {
                         child: Text("Logout"),
                         color: grayPure,
                         onPressed: () async {
-                          await AuthServices.logOut().then((_) {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              LoginScreen.routeName,
-                              (route) => false,
-                            );
-                          });
+                          await onLogoutPressed(context);
                         },
                       ),
                     ],
@@ -58,5 +54,35 @@ class MainScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> onLogoutPressed(BuildContext context) async {
+    String socialProvider = StorageUtil.readStorage("social_provider");
+
+    if (socialProvider == "google") {
+      await SocialServices.signOutGoogle().then((_) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          LoginScreen.routeName,
+          (route) => false,
+        );
+      });
+    } else if (socialProvider == "facebook") {
+      await SocialServices.logoutFacebook().then((_) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          LoginScreen.routeName,
+          (route) => false,
+        );
+      });
+    } else {
+      await AuthServices.logOut().then((_) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          LoginScreen.routeName,
+          (route) => false,
+        );
+      });
+    }
   }
 }

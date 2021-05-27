@@ -14,6 +14,12 @@ String generateAuthMessage(String? exceptionCode) {
       return "Operasi Tidak Diizinkan";
     case "email-already-in-use":
       return "Email Sudah Pernah Digunakan";
+    case "weak-password":
+      return "Password Terlalu Lemah";
+    case "account-exists-with-different-credential":
+      return "Email Sudah Terdaftar Dengan Metode Lain";
+    case "invalid-credential":
+      return "Kredensial Anda Tidak Valid";
     default:
       return "Server Internal Sedang Bermasalah";
   }

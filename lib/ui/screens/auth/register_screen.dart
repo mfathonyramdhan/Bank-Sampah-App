@@ -11,9 +11,11 @@ import '../../../shared/font.dart';
 import '../../../shared/size.dart';
 import '../../../ui/screens/auth/login_screen.dart';
 import '../../../utils/firebase_exception_util.dart';
-import '../../widgets/custom_text_field.dart';
-import '../../widgets/custom_material_button.dart';
-import '../../widgets/custom_social_button.dart';
+import '../../widgets/action_button.dart';
+import '../../widgets/input_field.dart';
+import '../../widgets/loading_bar.dart';
+import '../../widgets/social_button.dart';
+import '../../widgets/validation_bar.dart';
 
 class RegisterScreen extends StatefulWidget {
   static String routeName = "/register_screen";
@@ -88,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 topLeft: Radius.circular(4),
                                 topRight: Radius.circular(4),
                               ),
-                              child: CustomTextField(
+                              child: InputField(
                                 controller: emailController,
                                 hintText: "Email Address",
                                 keyboardType: TextInputType.emailAddress,
@@ -100,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
 
                             /// WIDGET: CUSTOM TEXT FIELD
-                            CustomTextField(
+                            InputField(
                               controller: phoneController,
                               hintText: "Nomor HP",
                               keyboardType: TextInputType.phone,
@@ -111,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
 
                             /// WIDGET: CUSTOM TEXT FIELD
-                            CustomTextField(
+                            InputField(
                               obscureText: true,
                               controller: passwordController,
                               hintText: "Password",
@@ -128,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 bottomLeft: Radius.circular(4),
                                 bottomRight: Radius.circular(4),
                               ),
-                              child: CustomTextField(
+                              child: InputField(
                                 obscureText: true,
                                 controller: rePasswordController,
                                 hintText: "Re-Password",
@@ -141,13 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
 
                             /// WIDGET: CUSTOM MATERIAL BUTTON
-                            if (isLogining) SizedBox(
-                              width: 28,
-                              height: 28,
-                              child: CircularProgressIndicator(
-                                color: whitePure,
-                              ),
-                            ) else CustomMaterialButton(
+                            if (isLogining) LoadingBar() else ActionButton(
                               text: "SIGN UP",
                               textColor: whitePure,
                               color: lightGreen,
@@ -183,23 +179,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CustomSocialButton(
+                                if (isFacebookPressed) SizedBox(
+                                  width: 140,
+                                  child: Center(
+                                    child: LoadingBar(),
+                                  ),
+                                ) else SocialButton(
                                   image: "assets/image/logo_facebook.png",
                                   color: whitePure,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      isFacebookPressed = true;
+                                    });
+                                    onFacebookPressed(context);
+                                  },
                                 ),
                                 if (isGooglePressed) SizedBox(
-                                  width: 96,
+                                  width: 140,
                                   child: Center(
-                                    child: SizedBox(
-                                      width: 28,
-                                      height: 28,
-                                      child: CircularProgressIndicator(
-                                        color: whitePure,
-                                      ),
-                                    ),
+                                    child: LoadingBar(),
                                   ),
-                                ) else CustomSocialButton(
+                                ) else SocialButton(
                                   image: "assets/image/logo_google.png",
                                   color: whitePure,
                                   onPressed: () {
@@ -258,33 +258,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> onSubmitPressed(
     BuildContext context, {
-    required String email,
-    required String phone, 
-    required String password,
-    required String rePassword,
+    String email = "",
+    String phone = "", 
+    String password = "",
+    String rePassword = "",
   }) async {
     if (!(email.trim() != "" && password.trim() != "")) {
       setState(() {
         isLogining = false;
       });
 
-      Flushbar(
-        duration: Duration(seconds: 4),
-        flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: redDanger,
-        message: "Semua Field Harus Diisikan",
-      ).show(context);
+      showValidationBar(
+        context, 
+        message: "Semua Field Harus Diisi",
+      );
     } else if (!(password == rePassword)) {
       setState(() {
         isLogining = false;
       });
 
-      Flushbar(
-        duration: Duration(seconds: 4),
-        flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: redDanger,
+      showValidationBar(
+        context, 
         message: "Konfirmasi Password Harus Sama",
-      ).show(context);
+      );
     } else {
       ResponseHandler result = await AuthServices.register(
         Auth(
@@ -299,12 +295,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           isLogining = false;
         });
 
-        Flushbar(
-          duration: Duration(seconds: 4),
-          flushbarPosition: FlushbarPosition.TOP,
-          backgroundColor: redDanger,
+        showValidationBar(
+          context, 
           message: generateAuthMessage(result.message),
-        ).show(context);
+        );
       } else {
         Navigator.pushReplacementNamed(
           context, 
@@ -315,9 +309,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> onGooglePressed(BuildContext context) async {
-    ResponseHandler response = await SocialServices.signInGoogle();
+    ResponseHandler result = await SocialServices.signInGoogle();
 
-    if (response.success == true) {
+    if (result.success == true) {
       Navigator.pushReplacementNamed(
         context, 
         Wrapper.routeName,
@@ -327,12 +321,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isGooglePressed = false;
       });
 
-      Flushbar(
-        duration: Duration(seconds: 4),
-        flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: redDanger,
-        message: response.message,
-      ).show(context);
+      showValidationBar(
+        context, 
+        message: result.message ?? "",
+      );
+    }
+  }
+
+  Future<void> onFacebookPressed(BuildContext context) async {
+    ResponseHandler result = await SocialServices.loginFacebook();
+
+    if (result.success == true) {
+      Navigator.pushReplacementNamed(
+        context, 
+        Wrapper.routeName,
+      );
+    } else {
+      setState(() {
+        isFacebookPressed = false;
+      });
+
+      showValidationBar(
+        context, 
+        message: generateAuthMessage(result.message),
+      );
     }
   }
 }

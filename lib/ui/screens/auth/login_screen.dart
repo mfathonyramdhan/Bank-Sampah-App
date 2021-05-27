@@ -1,4 +1,3 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kiloin/ui/screens/wrapper.dart';
 
@@ -10,8 +9,10 @@ import '../../../shared/font.dart';
 import '../../../shared/size.dart';
 import '../../../ui/screens/auth/register_screen.dart';
 import '../../../utils/firebase_exception_util.dart';
-import '../../widgets/custom_text_field.dart';
-import '../../widgets/custom_material_button.dart';
+import '../../widgets/action_button.dart';
+import '../../widgets/input_field.dart';
+import '../../widgets/loading_bar.dart';
+import '../../widgets/validation_bar.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = "/login_screen";
@@ -77,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             /// WIDGET: CUSTOM TEXT FIELD
-                            CustomTextField(
+                            InputField(
                               controller: emailController,
                               hintText: "Email Address",
                               keyboardType: TextInputType.emailAddress,
@@ -105,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             /// WIDGET: CUSTOM TEXT FIELD
-                            CustomTextField(
+                            InputField(
                               obscureText: true,
                               controller: passwordController,
                               hintText: "Password",
@@ -134,13 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             /// WIDGET: CUSTOM MATERIAL BUTTON
-                            if (isLogining) SizedBox(
-                              width: 28,
-                              height: 28,
-                              child: CircularProgressIndicator(
-                                color: whitePure,
-                              ),
-                            ) else CustomMaterialButton(
+                            if (isLogining) LoadingBar() else ActionButton(
                               text: "SIGN IN",
                               textColor: whitePure,
                               color: lightGreen,
@@ -234,12 +229,10 @@ class _LoginScreenState extends State<LoginScreen> {
         isLogining = false;
       });
 
-      Flushbar(
-        duration: Duration(seconds: 4),
-        flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: redDanger,
+      showValidationBar(
+        context, 
         message: "Semua Field Harus Diisi",
-      ).show(context);
+      );
     } else {
       ResponseHandler result = await AuthServices.login(
         Auth(email: email, password: password),
@@ -250,12 +243,10 @@ class _LoginScreenState extends State<LoginScreen> {
           isLogining = false;
         });
 
-        Flushbar(
-          duration: Duration(seconds: 4),
-          flushbarPosition: FlushbarPosition.TOP,
-          backgroundColor: redDanger,
+        showValidationBar(
+          context, 
           message: generateAuthMessage(result.message),
-        ).show(context);
+        );
       } else {
         Navigator.pushReplacementNamed(
           context, 

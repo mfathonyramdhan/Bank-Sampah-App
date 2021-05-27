@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../shared/color.dart';
 import '../../shared/font.dart';
 
-class CustomTextField extends StatelessWidget {
+class InputField extends StatelessWidget {
   final double borderRadius;
   final bool obscureText;
   final String? hintText;
@@ -12,7 +12,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final TextEditingController? controller;
 
-  CustomTextField({
+  InputField({
     this.hintText,
     this.borderRadius = 36,
     this.controller,
