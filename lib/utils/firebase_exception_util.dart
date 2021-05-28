@@ -21,6 +21,6 @@ String generateAuthMessage(String? exceptionCode) {
     case "invalid-credential":
       return "Kredensial Anda Tidak Valid";
     default:
-      return "Server Internal Sedang Bermasalah";
+      return "Autentikasi Dibatalkan";
   }
 }

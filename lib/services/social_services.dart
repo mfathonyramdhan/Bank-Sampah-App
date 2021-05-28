@@ -61,7 +61,7 @@ class SocialServices {
   static Future<ResponseHandler> loginFacebook() async {
     try {
       final LoginResult loginResult = await FacebookAuth.instance.login(
-        loginBehavior: LoginBehavior.katanaOnly,
+        loginBehavior: LoginBehavior.webOnly,
       );
 
       if (loginResult.status == LoginStatus.cancelled) {

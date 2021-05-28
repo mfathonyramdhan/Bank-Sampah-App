@@ -17,7 +17,6 @@ class GarbageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: deviceWidth(context),
-      height: 88,
       decoration: BoxDecoration(
         color: whitePure,
         borderRadius: BorderRadius.circular(10),
@@ -26,7 +25,7 @@ class GarbageCard extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              top: 12,
+              top: 18,
             ),
             child: Image(
               height: 72,
@@ -35,6 +34,7 @@ class GarbageCard extends StatelessWidget {
             ),
           ),
           Container(
+            height: double.infinity,
             decoration: BoxDecoration(
               color: whitePure.withOpacity(0.7),
               borderRadius: BorderRadius.circular(10),
