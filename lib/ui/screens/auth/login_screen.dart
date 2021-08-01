@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kiloin/ui/screens/wrapper.dart';
 
+import '../../widgets/action_button.dart';
+import '../../widgets/input_field.dart';
+import '../../widgets/loading_bar.dart';
+import '../../widgets/validation_bar.dart';
 import '../../../models/auth.dart';
 import '../../../models/response_handler.dart';
 import '../../../services/auth_services.dart';
@@ -9,10 +13,6 @@ import '../../../shared/font.dart';
 import '../../../shared/size.dart';
 import '../../../ui/screens/auth/register_screen.dart';
 import '../../../utils/firebase_exception_util.dart';
-import '../../widgets/action_button.dart';
-import '../../widgets/input_field.dart';
-import '../../widgets/loading_bar.dart';
-import '../../widgets/validation_bar.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = "/login_screen";
@@ -135,21 +135,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             /// WIDGET: CUSTOM MATERIAL BUTTON
-                            if (isLogining) LoadingBar() else ActionButton(
-                              text: "SIGN IN",
-                              textColor: whitePure,
-                              color: lightGreen,
-                              onPressed: () {
-                                setState(() {
-                                  isLogining = true;
-                                });
-                                onSubmitPressed(
-                                  context, 
-                                  email: emailController.text, 
-                                  password: passwordController.text,
-                                );
-                              },
-                            ),
+                            if (isLogining)
+                              LoadingBar()
+                            else
+                              ActionButton(
+                                text: "SIGN IN",
+                                textColor: whitePure,
+                                color: lightGreen,
+                                onPressed: () {
+                                  setState(() {
+                                    isLogining = true;
+                                  });
+                                  onSubmitPressed(
+                                    context,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  );
+                                },
+                              ),
                             SizedBox(
                               height: 20,
                             ),
@@ -219,37 +222,42 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  /// Method will be execute when submit (sign in) button is pressed
   Future<void> onSubmitPressed(
     BuildContext context, {
-    required String email, 
+    required String email,
     required String password,
   }) async {
+    // Check to ensure email and password isn't empty
     if (!(email.trim() != "" && password.trim() != "")) {
       setState(() {
         isLogining = false;
       });
 
       showValidationBar(
-        context, 
+        context,
         message: "Semua Field Harus Diisi",
       );
     } else {
+      // Execute auth login service method
       ResponseHandler result = await AuthServices.login(
         Auth(email: email, password: password),
       );
 
+      // Check to ensure user result is null
       if (result.user == null) {
         setState(() {
           isLogining = false;
         });
 
         showValidationBar(
-          context, 
+          context,
           message: generateAuthMessage(result.message),
         );
       } else {
+        // Navigate to wrapper screen
         Navigator.pushReplacementNamed(
-          context, 
+          context,
           Wrapper.routeName,
         );
       }

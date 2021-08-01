@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../screens/auth/login_screen.dart';
 import '../../widgets/garbage_card.dart';
+import '../../../extension/date_time_extension.dart';
 import '../../../bloc/user_bloc.dart';
 import '../../../services/auth_services.dart';
 import '../../../services/social_services.dart';
@@ -20,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final double width = 24;
   final List<Color> leftBarColor = [
-    whitePure, 
+    whitePure,
     whitePure,
   ];
 
@@ -33,15 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    final barGroup1 = makeGroupData(0, 65000);
-    final barGroup2 = makeGroupData(1, 10000);
-    final barGroup3 = makeGroupData(2, 45000);
-    final barGroup4 = makeGroupData(3, 30000);
-    final barGroup5 = makeGroupData(4, 50000);
-    final barGroup6 = makeGroupData(5, 60000);
-    final barGroup7 = makeGroupData(6, 75000);
+    final BarChartGroupData barGroup1 = makeGroupData(0, 65000);
+    final BarChartGroupData barGroup2 = makeGroupData(1, 10000);
+    final BarChartGroupData barGroup3 = makeGroupData(2, 45000);
+    final BarChartGroupData barGroup4 = makeGroupData(3, 30000);
+    final BarChartGroupData barGroup5 = makeGroupData(4, 50000);
+    final BarChartGroupData barGroup6 = makeGroupData(5, 60000);
+    final BarChartGroupData barGroup7 = makeGroupData(6, 75000);
 
-    final items = [
+    final List<BarChartGroupData> items = [
       barGroup1,
       barGroup2,
       barGroup3,
@@ -63,7 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           /// SECTION: HEADER PROFILE
           Padding(
-            padding: EdgeInsets.fromLTRB(defaultMargin, defaultMargin, defaultMargin, 18),
+            padding: EdgeInsets.fromLTRB(
+                defaultMargin, defaultMargin, defaultMargin, 18),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -88,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 24,
                             ),
                           );
-
                         } else {
                           return Text(
                             "Memuat...",
@@ -113,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+
           /// SECTION: TRANSACTION RECORD
           Padding(
             padding: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 12),
@@ -128,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: 24,
                 ),
+
                 /// WIDGET: GRAPHIC BAR
                 Container(
                   width: defaultWidth(context),
@@ -154,7 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               bottomTitles: SideTitles(
                                 showTitles: true,
                                 getTitles: (double value) => getTitles(value),
-                                getTextStyles: (_) => regularRobotoFont.copyWith(
+                                getTextStyles: (_) =>
+                                    regularRobotoFont.copyWith(
                                   color: whitePure,
                                   fontSize: 12,
                                 ),
@@ -165,7 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 interval: 25,
                                 reservedSize: 10,
                                 getTitles: (value) => value.toInt().toString(),
-                                getTextStyles: (_) => regularRobotoFont.copyWith(
+                                getTextStyles: (_) =>
+                                    regularRobotoFont.copyWith(
                                   color: whitePure,
                                   fontSize: 12,
                                 ),
@@ -183,8 +188,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    /// TODO: GENERATE FROM DATETIME
                     Text(
-                      "Friday, 15 Januari 2021",
+                      "${getDateTime().dayName}, ${getDateTime().day} ${getDateTime().monthName} ${getDateTime().year}",
                       style: mediumRobotoFont,
                     ),
                   ],
@@ -192,6 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+
           /// SECTION: GARBAGE PRICE
           Padding(
             padding: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 12),
@@ -229,6 +236,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  /// Generate current user local daytime
+  DateTime getDateTime() => DateTime.now();
+
+  /// Generate short day name based on order number
   String getTitles(double value) {
     switch (value.toInt()) {
       case 0:
@@ -250,6 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  /// Generate bar chart group data widget
   BarChartGroupData makeGroupData(int x, double y1) {
     return BarChartGroupData(
       barsSpace: 4,
@@ -268,9 +280,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  /// Method will be execute when logout button is pressed
   Future<void> onLogoutPressed(BuildContext context) async {
+    // Get social authenticated provider value from storage
     String socialProvider = StorageUtil.readStorage("social_provider");
 
+    // Check if social provider is 'google'
     if (socialProvider == "google") {
       await SocialServices.signOutGoogle().then((_) {
         Navigator.pushNamedAndRemoveUntil(
@@ -279,7 +294,9 @@ class _HomeScreenState extends State<HomeScreen> {
           (route) => false,
         );
       });
-    } else if (socialProvider == "facebook") {
+    }
+    // Check if social provider is 'facebook'
+    else if (socialProvider == "facebook") {
       await SocialServices.logoutFacebook().then((_) {
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -287,7 +304,9 @@ class _HomeScreenState extends State<HomeScreen> {
           (route) => false,
         );
       });
-    } else {
+    }
+    // Check if authenticated not from social provider
+    else {
       await AuthServices.logOut().then((_) {
         Navigator.pushNamedAndRemoveUntil(
           context,

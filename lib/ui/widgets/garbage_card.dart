@@ -9,7 +9,7 @@ class GarbageCard extends StatelessWidget {
   final Color textColor;
 
   const GarbageCard({
-    this.title = "", 
+    this.title = "",
     this.textColor = blackPure,
   });
 
@@ -34,7 +34,8 @@ class GarbageCard extends StatelessWidget {
             ),
           ),
           Container(
-            height: double.infinity,
+            width: deviceWidth(context),
+            height: 90,
             decoration: BoxDecoration(
               color: whitePure.withOpacity(0.7),
               borderRadius: BorderRadius.circular(10),
@@ -101,7 +102,7 @@ class GarbageCard extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(
-            right: 16,
+            right: 18,
           ),
           child: Text(
             "Rp",
@@ -116,12 +117,12 @@ class GarbageCard extends StatelessWidget {
           price,
           style: boldRobotoFont.copyWith(
             color: blackPure,
-            fontSize: 15,
+            fontSize: 14,
           ),
         ),
         Padding(
           padding: EdgeInsets.only(
-            left: 16,
+            left: 18,
           ),
           child: Text(
             "Kg",

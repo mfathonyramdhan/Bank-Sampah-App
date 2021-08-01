@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bloc/user_bloc.dart';
 import 'auth/login_screen.dart';
 import 'home/main_screen.dart';
+import '../../bloc/user_bloc.dart';
 
 class Wrapper extends StatelessWidget {
   static String routeName = '/wrapper';

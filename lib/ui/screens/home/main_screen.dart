@@ -49,6 +49,7 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                 ),
+
                 /// VIEW: PAGE TAB VIEW
                 PageView(
                   controller: pageController,
@@ -61,6 +62,7 @@ class _MainScreenState extends State<MainScreen> {
                     HomeScreen(),
                   ],
                 ),
+
                 /// WIDGET: BACK LAYER BOTTOM NAVBAR
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -83,7 +85,8 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                 ),
-                /// WIDGET: HALF CIRCLE BOTTOM BAR 
+
+                /// WIDGET: HALF CIRCLE BOTTOM BAR
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
@@ -106,6 +109,7 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                 ),
+
                 /// WIDGET: BOTTOM NAVIGATION BAR
                 generateBottomNavbar(),
               ],
