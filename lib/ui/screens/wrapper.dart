@@ -17,7 +17,9 @@ class Wrapper extends StatelessWidget {
       return LoginScreen();
     }
 
-    BlocProvider.of<UserBloc>(context).add(LoadUser(firebaseUser.currentUser!.uid));
+    BlocProvider.of<UserBloc>(context).add(
+      LoadUser(firebaseUser.currentUser!.uid),
+    );
 
     return Scaffold(
       body: MainScreen(),

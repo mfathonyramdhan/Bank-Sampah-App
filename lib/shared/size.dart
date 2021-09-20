@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Contants Media Query
 
-const double defaultMargin = 24;
+double defaultMargin = 24.r;
 
 double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 

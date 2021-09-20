@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiloin/ui/screens/wrapper.dart';
 
 import '../../widgets/action_button.dart';
@@ -36,230 +37,221 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            color: lightGreen,
+      body: SingleChildScrollView(
+        child: Container(
+          width: 1.sw,
+          color: whitePure,
+          padding: EdgeInsets.only(
+            top: 70.r + ScreenUtil().statusBarHeight,
           ),
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Container(
-                width: deviceWidth(context),
-                color: whitePure,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              /// WIDGET: APP LOGO
+              Padding(
                 padding: EdgeInsets.only(
-                  top: 70,
+                  bottom: 70.r,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    /// WIDGET: APP LOGO
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 70,
-                      ),
-                      child: Image(
-                        width: 125,
-                        height: 105,
-                        fit: BoxFit.cover,
-                        image: AssetImage("assets/image/splash.png"),
-                      ),
-                    ),
-
-                    /// SECTION: LOGIN FORM
-                    Container(
-                      width: deviceWidth(context),
-                      decoration: BoxDecoration(
-                        color: darkGreen,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(32),
-                          topRight: Radius.circular(32),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: defaultMargin,
-                          vertical: 36,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            /// WIDGET: CUSTOM TEXT FIELD
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4),
-                                topRight: Radius.circular(4),
-                              ),
-                              child: InputField(
-                                controller: emailController,
-                                hintText: "Email Address",
-                                keyboardType: TextInputType.emailAddress,
-                                borderRadius: 0,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 1,
-                            ),
-
-                            /// WIDGET: CUSTOM TEXT FIELD
-                            InputField(
-                              controller: phoneController,
-                              hintText: "Nomor HP",
-                              keyboardType: TextInputType.phone,
-                              borderRadius: 0,
-                            ),
-                            SizedBox(
-                              height: 1,
-                            ),
-
-                            /// WIDGET: CUSTOM TEXT FIELD
-                            InputField(
-                              obscureText: true,
-                              controller: passwordController,
-                              hintText: "Password",
-                              keyboardType: TextInputType.text,
-                              borderRadius: 0,
-                            ),
-                            SizedBox(
-                              height: 1,
-                            ),
-
-                            /// WIDGET: CUSTOM TEXT FIELD
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(4),
-                                bottomRight: Radius.circular(4),
-                              ),
-                              child: InputField(
-                                obscureText: true,
-                                controller: rePasswordController,
-                                hintText: "Re-Password",
-                                keyboardType: TextInputType.text,
-                                borderRadius: 0,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 24,
-                            ),
-
-                            /// WIDGET: CUSTOM MATERIAL BUTTON
-                            if (isLogining)
-                              LoadingBar()
-                            else
-                              ActionButton(
-                                text: "SIGN UP",
-                                textColor: whitePure,
-                                color: lightGreen,
-                                onPressed: () {
-                                  setState(() {
-                                    isLogining = true;
-                                  });
-                                  onSubmitPressed(
-                                    context,
-                                    email: emailController.text,
-                                    phone: phoneController.text,
-                                    password: passwordController.text,
-                                    rePassword: rePasswordController.text,
-                                  );
-                                },
-                              ),
-                            SizedBox(
-                              height: 20,
-                            ),
-
-                            /// WIDGET: FORGOT PASSWORD LINK
-                            Text(
-                              "OR",
-                              style: boldCalibriFont.copyWith(
-                                fontSize: 14,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-
-                            /// WIDGET: SOCIAL BUTTON
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (isFacebookPressed)
-                                  SizedBox(
-                                    width: 140,
-                                    child: Center(
-                                      child: LoadingBar(),
-                                    ),
-                                  )
-                                else
-                                  SocialButton(
-                                    image: "assets/image/logo_facebook.png",
-                                    color: whitePure,
-                                    onPressed: () {
-                                      setState(() {
-                                        isFacebookPressed = true;
-                                      });
-                                      onFacebookPressed(context);
-                                    },
-                                  ),
-                                if (isGooglePressed)
-                                  SizedBox(
-                                    width: 140,
-                                    child: Center(
-                                      child: LoadingBar(),
-                                    ),
-                                  )
-                                else
-                                  SocialButton(
-                                    image: "assets/image/logo_google.png",
-                                    color: whitePure,
-                                    onPressed: () {
-                                      setState(() {
-                                        isGooglePressed = true;
-                                      });
-                                      onGooglePressed(context);
-                                    },
-                                  ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 24,
-                            ),
-
-                            /// WIDGET: LOGIN ACTION
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Already Have Account ? ",
-                                  style: regularCalibriFont.copyWith(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      LoginScreen.routeName,
-                                    );
-                                  },
-                                  child: Text(
-                                    "Login",
-                                    style: regularCalibriFont.copyWith(
-                                      fontSize: 14,
-                                      color: lightGreen,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                child: Image(
+                  width: 125.r,
+                  height: 105.r,
+                  fit: BoxFit.cover,
+                  image: AssetImage("assets/image/splash.png"),
                 ),
               ),
-            ),
+
+              /// SECTION: LOGIN FORM
+              Container(
+                width: 1.sw,
+                decoration: BoxDecoration(
+                  color: darkGreen,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32.r),
+                    topRight: Radius.circular(32.r),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: defaultMargin,
+                    vertical: 36.r,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      /// WIDGET: CUSTOM TEXT FIELD
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(4.r),
+                          topRight: Radius.circular(4.r),
+                        ),
+                        child: InputField(
+                          controller: emailController,
+                          hintText: "Email Address",
+                          keyboardType: TextInputType.emailAddress,
+                          borderRadius: 0,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 1.h,
+                      ),
+
+                      /// WIDGET: CUSTOM TEXT FIELD
+                      InputField(
+                        controller: phoneController,
+                        hintText: "Nomor HP",
+                        keyboardType: TextInputType.phone,
+                        borderRadius: 0,
+                      ),
+                      SizedBox(
+                        height: 1.h,
+                      ),
+
+                      /// WIDGET: CUSTOM TEXT FIELD
+                      InputField(
+                        obscureText: true,
+                        controller: passwordController,
+                        hintText: "Password",
+                        keyboardType: TextInputType.text,
+                        borderRadius: 0,
+                      ),
+                      SizedBox(
+                        height: 1.h,
+                      ),
+
+                      /// WIDGET: CUSTOM TEXT FIELD
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(4.r),
+                          bottomRight: Radius.circular(4.r),
+                        ),
+                        child: InputField(
+                          obscureText: true,
+                          controller: rePasswordController,
+                          hintText: "Re-Password",
+                          keyboardType: TextInputType.text,
+                          borderRadius: 0,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 24.h,
+                      ),
+
+                      /// WIDGET: CUSTOM MATERIAL BUTTON
+                      if (isLogining)
+                        LoadingBar()
+                      else
+                        ActionButton(
+                          text: "SIGN UP",
+                          textColor: whitePure,
+                          color: lightGreen,
+                          onPressed: () {
+                            setState(() {
+                              isLogining = true;
+                            });
+                            onSubmitPressed(
+                              context,
+                              email: emailController.text,
+                              phone: phoneController.text,
+                              password: passwordController.text,
+                              rePassword: rePasswordController.text,
+                            );
+                          },
+                        ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+
+                      /// WIDGET: FORGOT PASSWORD LINK
+                      Text(
+                        "OR",
+                        style: boldCalibriFont.copyWith(
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+
+                      /// WIDGET: SOCIAL BUTTON
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (isFacebookPressed)
+                            SizedBox(
+                              width: 140.r,
+                              child: Center(
+                                child: LoadingBar(),
+                              ),
+                            )
+                          else
+                            SocialButton(
+                              image: "assets/image/logo_facebook.png",
+                              color: whitePure,
+                              onPressed: () {
+                                setState(() {
+                                  isFacebookPressed = true;
+                                });
+                                onFacebookPressed(context);
+                              },
+                            ),
+                          if (isGooglePressed)
+                            SizedBox(
+                              width: 140.r,
+                              child: Center(
+                                child: LoadingBar(),
+                              ),
+                            )
+                          else
+                            SocialButton(
+                              image: "assets/image/logo_google.png",
+                              color: whitePure,
+                              onPressed: () {
+                                setState(() {
+                                  isGooglePressed = true;
+                                });
+                                onGooglePressed(context);
+                              },
+                            ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 24.h,
+                      ),
+
+                      /// WIDGET: LOGIN ACTION
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Already Have Account ? ",
+                            style: regularCalibriFont.copyWith(
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                LoginScreen.routeName,
+                              );
+                            },
+                            child: Text(
+                              "Login",
+                              style: regularCalibriFont.copyWith(
+                                fontSize: 14.sp,
+                                color: lightGreen,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

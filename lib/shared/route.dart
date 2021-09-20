@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kiloin/ui/screens/home/menu_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/register_screen.dart';
@@ -12,4 +13,5 @@ Map<String, Widget Function(BuildContext context)> appRoute = {
   LoginScreen.routeName: (BuildContext context) => LoginScreen(),
   RegisterScreen.routeName: (BuildContext context) => RegisterScreen(),
   MainScreen.routeName: (BuildContext context) => MainScreen(),
+  MenuScreen.routeName: (BuildContext context) => MenuScreen(),
 };

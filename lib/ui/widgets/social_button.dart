@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SocialButton extends StatelessWidget {
   final String image;
   final double? height;
   final Color? color;
   final double? borderRadius;
-  final Function onPressed;
+  final void Function()? onPressed;
 
   SocialButton({
-    this.height = 46,
+    this.height,
     this.color,
     this.borderRadius,
     required this.image,
@@ -18,9 +19,9 @@ class SocialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
+      height: height ?? 46.r,
       padding: EdgeInsets.symmetric(
-        horizontal: 16,
+        horizontal: 16.r,
       ),
       child: MaterialButton(
         color: color,
@@ -31,22 +32,20 @@ class SocialButton extends StatelessWidget {
         splashColor: Colors.black.withOpacity(0.4),
         visualDensity: VisualDensity.comfortable,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(36),
+          borderRadius: BorderRadius.circular(36.r),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 32,
+            horizontal: 32.r,
           ),
           child: Image(
-            width: 22,
-            height: 22,
+            width: 22.r,
+            height: 22.r,
             fit: BoxFit.cover,
             image: AssetImage(image),
           ),
         ),
-        onPressed: () {
-          onPressed();
-        },
+        onPressed: onPressed,
       ),
     );
   }

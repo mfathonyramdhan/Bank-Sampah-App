@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../shared/color.dart';
 import '../../shared/font.dart';
 
 class InputField extends StatelessWidget {
-  final double borderRadius;
+  final double? borderRadius;
   final bool obscureText;
   final String? hintText;
   final Widget? prefixIcon;
@@ -14,7 +15,7 @@ class InputField extends StatelessWidget {
 
   InputField({
     this.hintText,
-    this.borderRadius = 36,
+    this.borderRadius,
     this.controller,
     this.onChanged,
     this.keyboardType,
@@ -49,13 +50,13 @@ class InputField extends StatelessWidget {
           vertical: 10,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(borderRadius ?? 36.r),
           borderSide: BorderSide(
             style: BorderStyle.none,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(borderRadius ?? 36.r),
           borderSide: BorderSide(
             style: BorderStyle.none,
           ),

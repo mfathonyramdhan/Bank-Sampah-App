@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kiloin/ui/screens/home/menu_screen.dart';
 
 import '../../screens/auth/login_screen.dart';
 import '../../widgets/garbage_card.dart';
@@ -19,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final double width = 24;
+  final double width = 24.r;
   final List<Color> leftBarColor = [
     whitePure,
     whitePure,
@@ -65,7 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
           /// SECTION: HEADER PROFILE
           Padding(
             padding: EdgeInsets.fromLTRB(
-                defaultMargin, defaultMargin, defaultMargin, 18),
+              defaultMargin,
+              ScreenUtil().statusBarHeight + 8.r,
+              defaultMargin,
+              18.r,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -75,11 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "Hai, Petugas",
                       style: lightRobotoFont.copyWith(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                     ),
                     SizedBox(
-                      height: 4,
+                      height: 4.h,
                     ),
                     BlocBuilder<UserBloc, UserState>(
                       builder: (_, state) {
@@ -87,14 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           return Text(
                             state.user.name ?? "-",
                             style: boldRobotoFont.copyWith(
-                              fontSize: 24,
+                              fontSize: 24.sp,
                             ),
                           );
                         } else {
                           return Text(
                             "Memuat...",
                             style: boldRobotoFont.copyWith(
-                              fontSize: 24,
+                              fontSize: 24.sp,
                             ),
                           );
                         }
@@ -109,6 +115,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onTap: () async {
                     onLogoutPressed(context);
+
+                    // Navigator.pushNamed(
+                    //   context, 
+                    //   MenuScreen.routeName,
+                    // );
                   },
                 ),
               ],
@@ -117,27 +128,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
           /// SECTION: TRANSACTION RECORD
           Padding(
-            padding: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 12),
+            padding: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 12.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Record Transaksi",
                   style: regularRobotoFont.copyWith(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                   ),
                 ),
                 SizedBox(
-                  height: 24,
+                  height: 24.h,
                 ),
 
                 /// WIDGET: GRAPHIC BAR
                 Container(
                   width: defaultWidth(context),
-                  height: 160,
+                  height: 160.r,
                   padding: EdgeInsets.only(
-                    left: 12,
-                    right: 6,
+                    left: 12.r,
+                    right: 6.r,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,22 +168,20 @@ class _HomeScreenState extends State<HomeScreen> {
                               bottomTitles: SideTitles(
                                 showTitles: true,
                                 getTitles: (double value) => getTitles(value),
-                                getTextStyles: (_) =>
-                                    regularRobotoFont.copyWith(
+                                getTextStyles: (_) => mediumRobotoFont.copyWith(
                                   color: whitePure,
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                 ),
                               ),
                               leftTitles: SideTitles(
                                 showTitles: true,
-                                margin: 20,
+                                margin: 20.r,
                                 interval: 25,
                                 reservedSize: 10,
                                 getTitles: (value) => value.toInt().toString(),
-                                getTextStyles: (_) =>
-                                    regularRobotoFont.copyWith(
+                                getTextStyles: (_) => regularRobotoFont.copyWith(
                                   color: whitePure,
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                 ),
                               ),
                             ),
@@ -180,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 12,
+                        height: 12.h,
                       ),
                     ],
                   ),
@@ -188,9 +197,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    /// TODO: GENERATE FROM DATETIME
                     Text(
-                      "${getDateTime().dayName}, ${getDateTime().day} ${getDateTime().monthName} ${getDateTime().year}",
+                      "${
+                        getDateTime().dayName
+                      }, ${
+                        getDateTime().day
+                      } ${
+                        getDateTime().monthName
+                      } ${
+                        getDateTime().year
+                      }",
                       style: mediumRobotoFont,
                     ),
                   ],
@@ -201,25 +217,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
           /// SECTION: GARBAGE PRICE
           Padding(
-            padding: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 12),
+            padding: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 12.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Harga Sampah",
                   style: regularRobotoFont.copyWith(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                   ),
                 ),
                 SizedBox(
-                  height: 18,
+                  height: 18.h,
                 ),
                 GarbageCard(
                   title: "Harga Jual",
                   textColor: yellowPure,
                 ),
                 SizedBox(
-                  height: 16,
+                  height: 16.h,
                 ),
                 GarbageCard(
                   title: "Harga Jual",
@@ -229,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SizedBox(
-            height: 92,
+            height: 92.h,
           ),
         ],
       ),
@@ -272,8 +288,8 @@ class _HomeScreenState extends State<HomeScreen> {
           colors: leftBarColor,
           width: width,
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(8),
-            bottomRight: Radius.circular(8),
+            bottomLeft: Radius.circular(8.r),
+            bottomRight: Radius.circular(8.r),
           ),
         ),
       ],

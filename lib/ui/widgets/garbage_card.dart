@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../shared/color.dart';
 import '../../../shared/font.dart';
@@ -16,35 +17,35 @@ class GarbageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: deviceWidth(context),
+      width: 1.sw,
       decoration: BoxDecoration(
         color: whitePure,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
       ),
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(
-              top: 18,
+            padding: EdgeInsets.only(
+              top: 18.r,
             ),
             child: Image(
-              height: 72,
+              height: 65.r,
               fit: BoxFit.cover,
               image: AssetImage("assets/image/bg_jual_sampah.png"),
             ),
           ),
           Container(
-            width: deviceWidth(context),
-            height: 90,
+            width: 1.sw,
+            height: 83.r,
             decoration: BoxDecoration(
               color: whitePure.withOpacity(0.7),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 18,
+              vertical: 10.r,
+              horizontal: 18.r,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,25 +54,25 @@ class GarbageCard extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      width: 10,
-                      height: 10,
+                      width: 10.r,
+                      height: 10.r,
                       decoration: BoxDecoration(
                         color: whitePure,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          width: 2.5,
+                          width: 2.5.w,
                           color: textColor,
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 4,
+                      width: 4.w,
                     ),
                     Text(
                       title,
                       style: mediumRobotoFont.copyWith(
                         color: textColor,
-                        fontSize: 12,
+                        fontSize: 12.sp,
                       ),
                     ),
                   ],
@@ -94,7 +95,7 @@ class GarbageCard extends StatelessWidget {
           type,
           style: boldRobotoFont.copyWith(
             color: textColor,
-            fontSize: 13,
+            fontSize: 13.sp,
           ),
         ),
         SizedBox(
@@ -102,14 +103,14 @@ class GarbageCard extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(
-            right: 18,
+            right: 18.r,
           ),
           child: Text(
             "Rp",
             textAlign: TextAlign.start,
             style: regularRobotoFont.copyWith(
               color: grayPure,
-              fontSize: 12,
+              fontSize: 12.sp,
             ),
           ),
         ),
@@ -117,19 +118,19 @@ class GarbageCard extends StatelessWidget {
           price,
           style: boldRobotoFont.copyWith(
             color: blackPure,
-            fontSize: 14,
+            fontSize: 14.sp,
           ),
         ),
         Padding(
           padding: EdgeInsets.only(
-            left: 18,
+            left: 18.r,
           ),
           child: Text(
             "Kg",
             textAlign: TextAlign.start,
             style: regularRobotoFont.copyWith(
               color: grayPure,
-              fontSize: 12,
+              fontSize: 12.sp,
             ),
           ),
         ),

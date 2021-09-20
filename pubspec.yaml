@@ -21,8 +21,6 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   another_flushbar: ^1.10.22
   cloud_firestore: ^2.2.0
   cupertino_icons: ^1.0.2
@@ -30,9 +28,12 @@ dependencies:
   firebase_auth: ^1.2.0
   firebase_core: ^1.2.0
   fl_chart: ^0.36.1
+  flutter:
+    sdk: flutter
   flutter_bloc: ^7.0.0
   flutter_facebook_auth: ^3.4.0
   flutter_native_splash: ^1.1.8+4
+  flutter_screenutil: ^5.0.0+2
   get_storage: ^2.0.2
   google_sign_in: ^5.0.4
   provider: ^5.0.0
